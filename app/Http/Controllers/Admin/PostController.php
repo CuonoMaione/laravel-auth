@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -30,7 +30,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => ['required', 'unique:posts' , 'max:255'],
+            'content' => ['required', 'min:10' ],
+            'image' => ['url:https'],
+        ]);
+        
+        $data['slug'] = Str::of($data['title'])->slug('-');
+        $newPost = new Post();
+        $newPost = Post::create($data);
+        return redirect()->route('admin.posts.index');
     }
 
     /**
