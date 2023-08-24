@@ -22,7 +22,12 @@
                             <td>
                             <a href="{{ route('admin.posts.show', $post->id) }}" class="btn btn-sm btn-primary">View</a>
                             <a href="{{ route('admin.posts.edit' , $post->id)}}" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="" class="btn btn-sm btn-danger">Delete</a>
+                            <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                            
                             </td>
                         </tr>
                     @endforeach
