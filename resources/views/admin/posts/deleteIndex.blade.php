@@ -22,8 +22,13 @@
                             <td>
                             <form action="{{ route('admin.posts.restore', $post) }}" method="POST" class="d-inline">
                                 @csrf
+                                @method('POST')
+                                <button type="submit" class="btn btn-sm btn-warning">Restore</button>
+                            </form>
+                            <form action="{{ route('admin.posts.obliterate', $post) }}" method="POST" class="d-inline">
+                                @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Restore</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                             
                             </td>

@@ -26,7 +26,8 @@ Auth::routes();
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/',[ DashboardController::class ,'home'])->name('home');
     Route::get('/posts/deleted', [PostController::class , 'deletedIndex'])->name('posts.deletedIndex');
-    Route::delete('/posts/deleted/{id}', [PostController::class , 'restore'])->name('posts.restore');
+    Route::post('/posts/deleted/{post}', [PostController::class , 'restore'])->name('posts.restore');
+    Route::delete('/posts/deleted/{post}', [PostController::class , 'obliterate'])->name('posts.obliterate');
 
     Route::resource('/posts' ,PostController::class);
 });
