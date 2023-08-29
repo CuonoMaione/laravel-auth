@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -31,12 +32,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $img_path = Storage::put('uploads', $request['image']);
         $data = $request->validate([
             'title' => ['required', 'unique:posts' , 'max:255'],
             'content' => ['required', 'min:10' ],
-            'image' => ['url:https'],
+            
         ]);
-        
+
+        $data['image'] = $img_path;    
         $newPost = Post::create($data);
         $newPost->slug = Str::of("$newPost->id " .  $data['title'])->slug('-');
         $newPost->save();
